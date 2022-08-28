@@ -1,6 +1,6 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
-  <li class="catalog__item" v-for="(product, index) in products" :key="index">
+  <li class="catalog__item" :product="product">
     <a class="catalog__pic" href="#">
       <img
         :src="product.image"
@@ -64,6 +64,6 @@
 
 <script>
 export default {
-  props: ['products'],
+  props: ['product'],
 };
 </script>
