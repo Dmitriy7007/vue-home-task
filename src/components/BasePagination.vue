@@ -6,7 +6,6 @@
         class="pagination__link pagination__link--arrow pagination__link--disabled"
         aria-label="Предыдущая страница"
         href="#"
-        @click.prevent="paginatePrev"
       >
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left"></use>
@@ -30,7 +29,6 @@
         class="pagination__link pagination__link--arrow"
         href="#"
         aria-label="Следующая страница"
-        @click.prevent="paginateNext"
       >
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-right"></use>
@@ -42,10 +40,10 @@
 
 <script>
 export default {
-  // model: {
-  //   prop: 'page',
-  //   event: 'paginate',
-  // },
+  model: {
+    prop: 'page',
+    event: 'paginate',
+  },
   props: ['page', 'count', 'perPage'],
   computed: {
     pages() {
@@ -53,15 +51,15 @@ export default {
     },
   },
   methods: {
-    paginate(page) {
-      this.$emit('update:page', page);
+    paginate(pageNumber) {
+      this.$emit('paginate', pageNumber);
     },
-    paginateNext() {
-      this.$emit('update:page', alert(this.page + 1));
-    },
-    paginatePrev() {
-      this.$emit('update:page', alert(this.page - 1));
-    },
+    // paginateNext() {
+    //   this.$emit('update:page', alert(this.page + 1));
+    // },
+    // paginatePrev() {
+    //   this.$emit('update:page', alert(this.page - 1));
+    // },
   },
 };
 </script>
