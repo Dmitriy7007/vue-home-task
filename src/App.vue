@@ -2,7 +2,8 @@
 <template>
   <section class="catalog">
     <ProductList :products="products"/>
-    <BasePagination :page.sync="page" :count="countProducts" :per-page="productsPerPage" />
+    <!-- <BasePagination :page.sync="page" :count="countProducts" :per-page="productsPerPage" /> -->
+    <BasePagination v-model="page" :per-page="productsPerPage" :count="countProducts"/>
   </section>
 </template>
 
