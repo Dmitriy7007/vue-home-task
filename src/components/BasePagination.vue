@@ -1,11 +1,12 @@
-<!-- eslint-disable max-len -->
 <template>
   <ul class="catalog__pagination pagination">
     <li class="pagination__item">
       <a
-        class="pagination__link pagination__link--arrow pagination__link--disabled"
+        class="pagination__link pagination__link--arrow"
         aria-label="Предыдущая страница"
         href="#"
+        @click.prevent="paginatePrev"
+        :class = "{ 'pagination__link--disabled': page === 1 }"
       >
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left"></use>
@@ -29,6 +30,8 @@
         class="pagination__link pagination__link--arrow"
         href="#"
         aria-label="Следующая страница"
+        @click.prevent="paginateNext"
+        :class = "{ 'pagination__link--disabled': page === pages }"
       >
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-right"></use>
@@ -54,12 +57,16 @@ export default {
     paginate(pageNumber) {
       this.$emit('paginate', pageNumber);
     },
-    // paginateNext() {
-    //   this.$emit('update:page', alert(this.page + 1));
-    // },
-    // paginatePrev() {
-    //   this.$emit('update:page', alert(this.page - 1));
-    // },
+    paginateNext() {
+      if (this.page < this.pages) {
+        this.$emit('paginate', this.page + 1);
+      }
+    },
+    paginatePrev() {
+      if (this.page > 1) {
+        this.$emit('paginate', this.page - 1);
+      }
+    },
   },
 };
 </script>
