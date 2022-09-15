@@ -5,6 +5,7 @@
       <input
         class="colors__radio sr-only"
         type="radio"
+        :name="id"
         :value="color"
         v-model="currentColorProduct"
       />
@@ -20,7 +21,7 @@
 <script>
 export default {
 
-  props: ['color', 'currentColor'],
+  props: ['color', 'currentColor', 'id'],
 
   computed: {
     currentColorProduct: {

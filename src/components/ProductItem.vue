@@ -17,7 +17,7 @@
     <span class="catalog__price"> {{ product.price }} ₽ </span>
 
     <ul class="colors colors--black">
-      <ProductColor v-for="(color, index) in colors" :color="color" :key="index" :current-color.sync="currentColorProduct" />
+      <ProductColor v-for="(color, index) in colors" :color="color" :key="index" :current-color.sync="currentColorProduct" :id="product.id"/>
     </ul>
   </li>
 </template>
@@ -30,7 +30,7 @@ export default {
   components: { ProductColor },
   data() {
     return {
-      // currentColorProduct: this.product.colors[0],
+      currentColorProduct: this.product.colors[0],
     };
   },
   computed: {
@@ -40,15 +40,20 @@ export default {
     indexColor() {
       return this.product.colors.findIndex((index) => index === this.currentColorProduct);
     },
-    currentColorProduct: {
-      get() {
-        if (this.currentColorFilter) {
-          return this.currentColorFilter;
-        }
-        return this.product.colors[0];
-      },
-      // set(value) {
-      // },
+    // currentColorProduct: {
+    //   get() {
+    //     if (this.currentColorFilter) {
+    //       return this.currentColorFilter;
+    //     }
+    //     return this.product.colors[0];
+    //   },
+    //   // set(value) {
+    //   // },
+    // },
+  },
+  watch: {
+    currentColorFilter(value) {
+      this.currentColorProduct = value;
     },
   },
 };
