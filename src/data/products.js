@@ -5,8 +5,6 @@ export default [
     title: 'Стул обычный',
     price: 3690,
     content: [{ color: 'black', image: '/img/stul-alex-black.webp' }, { color: 'green', image: '/img/stul-alex-green.webp' }],
-    image: ['/img/stul-alex-black.webp', '/img/stul-alex-green.webp'],
-    colors: ['black', 'green'],
   },
   {
     id: 2,
@@ -14,8 +12,6 @@ export default [
     title: 'Стул красивый',
     price: 5660,
     content: [{ color: 'brown', image: '/img/stul-aul-brown.webp' }, { color: 'grey', image: '/img/stul-aul-grey.webp' }],
-    image: ['/img/stul-aul-brown.webp', '/img/stul-aul-grey.webp'],
-    colors: ['brown', 'grey'],
   },
   {
     id: 3,
@@ -23,8 +19,6 @@ export default [
     title: 'Стул для дачи',
     price: 21790,
     content: [{ color: 'grey', image: '/img/stul-chamberi-grey.webp' }],
-    image: ['/img/stul-chamberi-grey.webp'],
-    colors: ['grey'],
   },
   {
     id: 4,
@@ -32,8 +26,6 @@ export default [
     title: 'Стул как стул',
     price: 24690,
     content: [{ color: 'grey', image: '/img/stul-dzhulian-grey.webp' }],
-    image: ['/img/stul-dzhulian-grey.webp'],
-    colors: ['grey'],
   },
   {
     id: 5,
@@ -41,8 +33,6 @@ export default [
     title: 'Стул чемпиона',
     price: 14960,
     content: [{ color: 'green', image: '/img/stul-grib-green.webp' }, { color: 'blue', image: '/img/stul-grib-blue.webp' }, { color: 'brown', image: '/img/stul-grib-brown.webp' }],
-    image: ['/img/stul-grib-green.webp', '/img/stul-grib-blue.webp', '/img/stul-grib-brown.webp'],
-    colors: ['green', 'blue', 'brown'],
   },
   {
     id: 6,
@@ -50,8 +40,6 @@ export default [
     title: 'Стул посидеть',
     price: 8960,
     content: [{ color: 'black', image: '/img/stul-kitchen-black.webp' }, { color: 'red', image: '/img/stul-kitchen-red.webp' }, { color: 'white', image: '/img/stul-kitchen-white.webp' }],
-    image: ['/img/stul-kitchen-black.webp', '/img/stul-kitchen-red.webp', '/img/stul-kitchen-white.webp'],
-    colors: ['black', 'red', 'white'],
   },
   {
     id: 7,
@@ -59,8 +47,6 @@ export default [
     title: 'Стул Толика',
     price: 39900,
     content: [{ color: 'brown', image: '/img/stul-kiwi-brown.webp' }],
-    image: ['/img/stul-kiwi-brown.webp'],
-    colors: ['brown'],
   },
   {
     id: 8,
@@ -68,8 +54,6 @@ export default [
     title: 'Стул Великий',
     price: 34900,
     content: [{ color: 'brown', image: '/img/stul-zal-brown.webp' }, { color: 'grey', image: '/img/stul-zal-grey.webp' }, { color: 'white', image: '/img/stul-zal-white.webp' }],
-    image: ['/img/stul-zal-brown.webp', '/img/stul-zal-grey.webp', '/img/stul-zal-white.webp'],
-    colors: ['brown', 'grey', 'white'],
   },
   {
     id: 9,
@@ -77,8 +61,6 @@ export default [
     title: 'Стул для отдыха',
     price: 4900,
     content: [{ color: 'orange', image: '/img/stul-tochtonado-orange.webp' }],
-    image: ['/img/stul-tochtonado-orange.webp'],
-    colors: ['orange'],
   },
   {
     id: 10,
@@ -86,8 +68,6 @@ export default [
     title: 'Стул PRO',
     price: 6990,
     content: [{ color: 'black', image: '/img/stul-tolix-black.webp' }, { color: 'blue', image: '/img/stul-tolix-blue.webp' }, { color: 'grey', image: '/img/stul-tolix-grey.webp' }, { color: 'orange', image: '/img/stul-tolix-orange.webp' }, { color: 'green', image: '/img/stul-tolix-green.webp' }],
-    image: ['/img/stul-tolix-black.webp', '/img/stul-tolix-blue.webp', '/img/stul-tolix-grey.webp', '/img/stul-tolix-orange.webp', '/img/stul-tolix-green.webp'],
-    colors: ['black', 'blue', 'grey', 'orange', 'green'],
   },
   {
     id: 11,
@@ -95,8 +75,6 @@ export default [
     title: 'Стул со скидкой',
     price: 16560,
     content: [{ color: 'black', image: '/img/stul-tron-black.webp' }, { color: 'red', image: '/img/stul-tron-red.webp' }, { color: 'white', image: '/img/stul-tron-white.webp' }],
-    image: ['/img/stul-tron-black.webp', '/img/stul-tron-red.webp', '/img/stul-tron-white.webp'],
-    colors: ['black', 'red', 'white'],
   },
   {
     id: 12,
@@ -104,7 +82,5 @@ export default [
     title: 'Стул Вау',
     price: 30690,
     content: [{ color: 'blue', image: '/img/stul-vany-blue.webp' }, { color: 'brown', image: '/img/stul-vany-brown.webp' }, { color: 'grey', image: '/img/stul-vany-grey.webp' }, { color: 'white', image: '/img/stul-vany-white.webp' }],
-    image: ['/img/stul-vany-blue.webp', '/img/stul-vany-brown.webp', '/img/stul-vany-grey.webp', '/img/stul-vany-white.webp'],
-    colors: ['blue', 'brown', 'grey', 'white'],
   },
 ];
