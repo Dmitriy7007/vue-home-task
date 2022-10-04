@@ -1,11 +1,12 @@
+<!-- eslint-disable vue/no-deprecated-filter -->
 <!-- eslint-disable max-len -->
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <!-- eslint-disable vue/no-deprecated-v-bind-sync -->
 <template>
-  <li class="catalog__item" :product="product">
-    <a class="catalog__pic" href="#">
+  <li class="catalog__item">
+    <a class="catalog__pic" href="#" @click.prevent="gotoPage('product', {id: product.id})">
       <img
-        :src="product.image[indexColor]"
+        :src="product.content[indexColor].image"
         :alt="product.title"
       />
     </a>
@@ -14,7 +15,7 @@
       <a href="#"> {{ product.title }} </a>
     </h3>
 
-    <span class="catalog__price"> {{ product.price }} ₽ </span>
+    <span class="catalog__price"> {{ product.price | numberFormat}} ₽ </span>
 
     <ul class="colors colors--black">
       <ProductColor v-for="(color, index) in colors" :color="color" :key="index" :current-color.sync="currentColorProduct" :id="product.id"/>
@@ -23,6 +24,8 @@
 </template>
 
 <script>
+import gotoPage from '@/helpers/gotoPage';
+import numberFormat from '@/helpers/numberFormat';
 import ProductColor from './ProductColor.vue';
 
 export default {
@@ -30,30 +33,25 @@ export default {
   components: { ProductColor },
   data() {
     return {
-      currentColorProduct: this.product.colors[0],
+      currentColorProduct: this.product.content[0].color,
+      colors: this.product.content.map((el) => el.color),
     };
   },
+  filters: {
+    numberFormat,
+  },
   computed: {
-    colors() {
-      return this.product.colors;
-    },
     indexColor() {
-      return this.product.colors.findIndex((index) => index === this.currentColorProduct);
+      return this.product.content.findIndex((item) => item.color === this.currentColorProduct);
     },
-    // currentColorProduct: {
-    //   get() {
-    //     if (this.currentColorFilter) {
-    //       return this.currentColorFilter;
-    //     }
-    //     return this.product.colors[0];
-    //   },
-    //   // set(value) {
-    //   // },
-    // },
+  },
+  methods: {
+    gotoPage,
   },
   watch: {
     currentColorFilter(value) {
       this.currentColorProduct = value;
+      this.colors = this.product.content.map((el) => el.color);
     },
   },
 };
