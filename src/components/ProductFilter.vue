@@ -41,7 +41,7 @@
       <fieldset class="form__block">
         <legend class="form__legend">Цвет</legend>
         <ul class="colors">
-          <FilterColor v-for="item in colorProducts" :key="item.id" :color="item.color" :current-color-filter.sync="currentColorFilter"/>
+          <FilterColor v-for="item in colorProducts" :key="item.id" :color="item.code" :current-color-filter.sync="currentColorFilter" />
         </ul>
       </fieldset>
 
@@ -147,27 +147,35 @@
 </template>
 
 <script>
-import categories from '../data/categories';
-import colorProducts from '../data/colorProducts';
+import axios from 'axios';
 import FilterColor from './FilterColor.vue';
+import { API_BASE_URL } from '../config';
 
 export default {
-  props: ['priceFrom', 'priceTo', 'categoryId', 'colorProduct'],
+  props: ['priceFrom', 'priceTo', 'categoryId', 'colorProduct', 'colorProductId'],
   components: { FilterColor },
   data() {
     return {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
-      currentColorFilter: colorProducts[0].color,
+      currentColorFilter: '',
+
+      categoriesData: null,
+      colorData: null,
     };
   },
   computed: {
     categories() {
-      return categories;
+      return this.categoriesData ? this.categoriesData.items : [];
     },
     colorProducts() {
-      return colorProducts;
+      return this.colorData ? this.colorData.items : [];
+    },
+    currentColorId() {
+      return this.currentColorFilter
+        ? this.colorProducts.find((item) => item.code === this.currentColorFilter).id
+        : 0;
     },
   },
   methods: {
@@ -176,12 +184,24 @@ export default {
       this.$emit('update:priceTo', this.currentPriceTo);
       this.$emit('update:categoryId', this.currentCategoryId);
       this.$emit('update:colorProduct', this.currentColorFilter);
+      this.$emit('update:colorProductId', this.currentColorId);
     },
     reset() {
       this.$emit('update:priceFrom', 0);
       this.$emit('update:priceTo', 0);
       this.$emit('update:categoryId', 0);
       this.$emit('update:colorProduct', '');
+      this.$emit('update:colorProductId', 0);
+    },
+    loadCategories() {
+      axios.get(`${API_BASE_URL}/api/productCategories`)
+        // eslint-disable-next-line no-return-assign
+        .then((response) => this.categoriesData = response.data);
+    },
+    loadColors() {
+      axios.get(`${API_BASE_URL}/api/colors`)
+        // eslint-disable-next-line no-return-assign
+        .then((response) => this.colorData = response.data);
     },
   },
   watch: {
@@ -197,6 +217,10 @@ export default {
     colorProduct(value) {
       this.currentColorFilter = value;
     },
+  },
+  created() {
+    this.loadCategories();
+    this.loadColors();
   },
 };
 </script>

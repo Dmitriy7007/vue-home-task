@@ -3,7 +3,11 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <!-- eslint-disable max-len -->
 <template>
-  <main class="content container">
+  <main class="content container" v-if="productLoading">Загрузка товара...</main>
+  <main class="content container" v-else-if="!productData">Не удалось загрузить товар<br>
+    <button @click.prevent="loadProduct()">Попробовать еще раз</button>
+  </main>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -27,7 +31,7 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" :src="product.content[0].image" :alt="product.title">
+          <img width="570" height="570" :src="product.image.file.url" :alt="product.title">
         </div>
       </div>
 
@@ -116,10 +120,14 @@
                 </button>
               </div>
 
-              <button class="button button--primery" type="submit">
+              <button class="button button--primery" type="submit" :disabled="productAddSending">
                 В корзину
               </button>
             </div>
+
+            <div v-show="productAdded">Товар добавлен в корзину</div>
+            <div v-show="productAddSending">Добавляем товар в корзину...</div>
+
           </form>
         </div>
       </div>
@@ -178,14 +186,22 @@
 </template>
 
 <script>
-import products from '@/data/products';
-import categories from '@/data/categories';
+
 import numberFormat from '@/helpers/numberFormat';
+import axios from 'axios';
+import { mapActions } from 'vuex';
+import { API_BASE_URL } from '../config';
 
 export default {
   data() {
     return {
       productAmount: 1,
+      productData: null,
+      productLoading: false,
+      productLoadingFailed: false,
+
+      productAdded: false,
+      productAddSending: false,
     };
   },
   filters: {
@@ -193,18 +209,25 @@ export default {
   },
   computed: {
     product() {
-      return products.find((product) => product.id === +this.$route.params.id);
+      return this.productData;
     },
     category() {
-      return categories.find((category) => category.id === this.product.categoryId);
+      return this.productData.category;
     },
   },
   methods: {
+    ...mapActions(['addProductToCart']),
     addToCart() {
-      this.$store.commit(
-        'addProductToCart',
-        { productId: this.product.id, amount: this.productAmount },
-      );
+      this.productAdded = false;
+      this.productAddSending = true;
+
+      this.addProductToCart({ productId: this.product.id, amount: this.productAmount })
+        .then(
+          () => {
+            this.productAdded = true;
+            this.productAddSending = false;
+          },
+        );
     },
     addProduct() {
       this.productAmount += 1;
@@ -213,6 +236,26 @@ export default {
       if (this.productAmount > 1) {
         this.productAmount -= 1;
       }
+    },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      axios.get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
+        // eslint-disable-next-line no-return-assign
+        .then((response) => this.productData = response.data)
+        // eslint-disable-next-line no-return-assign
+        .catch(() => this.productLoadingFailed = true)
+        // eslint-disable-next-line no-return-assign
+        .then(() => this.productLoading = false);
+    },
+  },
+  watch: {
+    // eslint-disable-next-line func-names
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true,
     },
   },
 };

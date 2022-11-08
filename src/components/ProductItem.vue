@@ -6,7 +6,7 @@
   <li class="catalog__item">
     <router-link class="catalog__pic" :to="{name: 'product', params: {id: product.id}}">
       <img
-        :src="product.content[indexColor].image"
+        :src="product.image"
         :alt="product.title"
       />
     </router-link>
@@ -29,22 +29,25 @@ import numberFormat from '@/helpers/numberFormat';
 import ProductColor from './ProductColor.vue';
 
 export default {
-  props: ['product', 'currentColorFilter'],
+  // props: ['product', 'currentColorFilter'],
+  props: ['product'],
   components: { ProductColor },
   data() {
     return {
-      currentColorProduct: this.product.content[0].color,
-      colors: this.product.content.map((el) => el.color),
+      // currentColorProduct: this.product.content[0].color,
+      currentColorProduct: this.product.colors[0].code,
+      // colors: this.product.content.map((el) => el.color),
+      colors: this.product.colors.map((el) => el.code),
     };
   },
   filters: {
     numberFormat,
   },
-  computed: {
-    indexColor() {
-      return this.product.content.findIndex((item) => item.color === this.currentColorProduct);
-    },
-  },
+  // computed: {
+  //   indexColor() {
+  //     return this.product.content.findIndex((item) => item.color === this.currentColorProduct);
+  //   },
+  // },
   methods: {
     gotoPage,
   },

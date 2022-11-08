@@ -8,7 +8,7 @@
         type="radio"
         name="color"
         :value="color"
-        v-model="currentColorProduct"
+        v-model.number="currentColorProduct"
       />
       <span
         class="colors__value"
