@@ -4,7 +4,7 @@
 <template>
   <li class="cart__item product">
     <div class="product__pic">
-      <img :src="item.product.content[0].image" width="120" height="120" alt="item.product.title">
+      <img :src="item.product.image" width="120" height="120" alt="item.product.title">
     </div>
     <h3 class="product__title">
       {{item.product.title}}
@@ -33,7 +33,7 @@
       {{ (item.amount * item.product.price) | numberFormat }} ₽
     </b>
 
-    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(item.productId)">
+    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteCartProduct(item.productId)">
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close"></use>
       </svg>
@@ -43,7 +43,7 @@
 
 <script>
 import numberFormat from '@/helpers/numberFormat';
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   props: ['item'],
@@ -56,15 +56,12 @@ export default {
         return this.item.amount;
       },
       set(value) {
-        this.$store.commit(
-          'updateCartProductAmount',
-          { productId: this.item.productId, amount: value },
-        );
+        this.updateCartProductAmount({ productId: this.item.productId, amount: value });
       },
     },
   },
   methods: {
-    ...mapMutations({ deleteProduct: 'deleteCartProduct' }),
+    ...mapActions(['deleteCartProduct', 'updateCartProductAmount']),
   },
 };
 </script>

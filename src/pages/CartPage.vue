@@ -1,7 +1,11 @@
 <!-- eslint-disable vue/no-deprecated-filter -->
 <!-- eslint-disable max-len -->
 <template>
-  <main class="content container">
+  <main class="content container" v-if="$store.state.cartLoading">Загрузка корзины...</main>
+  <main class="content container" v-else-if="$store.state.cartLoadingFailed">Не удалось загрузить корзину товаров<br>
+    <button @click.prevent="cartLoad">Попробовать еще раз</button>
+  </main>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -68,6 +72,11 @@ export default {
       if (num > 1 && num < 5) return words[1];
       if (num === 1) return words[0];
       return words[2];
+    },
+  },
+  methods: {
+    cartLoad() {
+      this.$store.dispatch('loadCart');
     },
   },
 };
