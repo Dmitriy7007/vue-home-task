@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-deprecated-router-link-tag-prop -->
 <!-- eslint-disable vue/no-deprecated-filter -->
 <!-- eslint-disable max-len -->
 <template>
@@ -44,9 +45,12 @@
             Итого: <span>{{ totalPrice | numberFormat }} ₽</span>
           </p>
 
-          <button class="cart__button button button--primery" type="submit">
+          <router-link tag="button" :to="{name: 'order'}" class="cart__button button button--primery" type="submit" v-if="productAvailability">
             Оформить заказ
-          </button>
+          </router-link>
+          <router-link tag="button" :to="{name: 'order'}" class="cart__button button button--primery" v-else disabled>
+            Оформить заказ
+          </router-link>
         </div>
       </form>
     </section>
@@ -55,6 +59,7 @@
 
 <script>
 import numberFormat from '@/helpers/numberFormat';
+import productWord from '@/helpers/productWord';
 import { mapGetters } from 'vuex';
 import CartItem from '@/components/CartItem.vue';
 
@@ -65,13 +70,12 @@ export default {
   components: { CartItem },
   computed: {
     ...mapGetters({ products: 'cartDetailProducts', totalPrice: 'cartTotalPrice', amountItem: 'amountItem' }),
+
     productWord() {
-      const words = ['товар', 'товара', 'товаров'];
-      const num = this.amountItem % 10;
-      if (this.amountItem > 10 && this.amountItem < 20) return words[2];
-      if (num > 1 && num < 5) return words[1];
-      if (num === 1) return words[0];
-      return words[2];
+      return productWord(this.amountItem);
+    },
+    productAvailability() {
+      return this.$store.state.cartProducts.length > 0;
     },
   },
   methods: {
