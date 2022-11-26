@@ -106,10 +106,8 @@
 import BaseFormText from '@/components/BaseFormText.vue';
 import BaseFormTextarea from '@/components/BaseFormTextarea.vue';
 import OrderCartBlock from '@/components/OrderCartBlock.vue';
-import axios from 'axios';
 import productWord from '@/helpers/productWord';
 import { mapGetters } from 'vuex';
-import { API_BASE_URL } from '../config';
 
 export default {
   data() {
@@ -132,21 +130,11 @@ export default {
     order() {
       this.formError = {};
       this.formErrorMessage = '';
-      this.$store.commit('updateOrderSending', true);
-
-      axios.post(`${API_BASE_URL}/api/orders`, {
-        ...this.formData,
-      }, {
-        params: {
-          userAccessKey: this.$store.state.userAccessKey,
-        },
-      })
-        .then((response) => {
-          this.$store.commit('updateOrderInfoBlock');
-          this.$store.commit('resetCart');
-          this.$store.commit('updateOrderInfo', response.data);
-          this.$router.push({ name: 'orderInfo', params: { id: response.data.id } });
-          this.$store.commit('updateOrderSending', false);
+      this.$store.dispatch('loadOrder', this.formData)
+        .then(() => {
+          this.$router.push(
+            { name: 'orderInfo', params: { id: this.$store.state.orderId } },
+          );
         })
         .catch((error) => {
           this.formError = error.response.data.error.request || {};
@@ -155,5 +143,32 @@ export default {
         });
     },
   },
+  // methods: {
+  //   order() {
+  //     this.formError = {};
+  //     this.formErrorMessage = '';
+  //     this.$store.commit('updateOrderSending', true);
+
+  //     axios.post(`${API_BASE_URL}/api/orders`, {
+  //       ...this.formData,
+  //     }, {
+  //       params: {
+  //         userAccessKey: this.$store.state.userAccessKey,
+  //       },
+  //     })
+  //       .then((response) => {
+  //         this.$store.commit('updateOrderInfoBlock');
+  //         this.$store.commit('resetCart');
+  //         this.$store.commit('updateOrderInfo', response.data);
+  //         this.$router.push({ name: 'orderInfo', params: { id: response.data.id } });
+  //         this.$store.commit('updateOrderSending', false);
+  //       })
+  //       .catch((error) => {
+  //         this.formError = error.response.data.error.request || {};
+  //         this.formErrorMessage = error.response.data.error.message;
+  //         this.$store.commit('updateOrderSending', false);
+  //       });
+  //   },
+  // },
 };
 </script>
