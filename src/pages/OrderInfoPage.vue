@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/no-deprecated-filter -->
 <!-- eslint-disable max-len -->
 <template>
-    <main class="content container" v-if="$store.state.orderLoading">Загрузка страницы оформления заказа...</main>
+    <!-- <main class="content container" v-if="$store.state.orderLoading">Загрузка страницы оформления заказа...</main>
     <main class="content container" v-else-if="$store.state.orderLoadingFailed">Не удалось загрузить страницу оформления заказа
-    </main>
-    <main class="content container" v-else>
+    </main> -->
+    <main class="content container">
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">

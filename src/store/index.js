@@ -21,6 +21,11 @@ export default new Vuex.Store({
     cartLoading: false,
     cartLoadingFailed: false,
 
+    // formError: null,
+    // formErrorMessage: null,
+
+    orderId: null,
+
     orderLoading: false,
     orderLoadingFailed: false,
 
@@ -76,6 +81,15 @@ export default new Vuex.Store({
     },
     updateOrderLoadingFailed(state, status) {
       state.orderLoadingFailed = status;
+    },
+    // updateFormError(state, error) {
+    //   state.formError = error;
+    // },
+    // updateFormErrorMessage(state, message) {
+    //   state.formErrorMessage = message;
+    // },
+    updateOrderId(state, id) {
+      state.orderId = id;
     },
     syncCartProducts(state) {
       state.cartProducts = state.cartProductsData
@@ -194,6 +208,24 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit('updateCartProductsData', response.data.items);
           context.commit('syncCartProducts');
+        });
+    },
+    loadOrder(context, dataForm) {
+      context.commit('updateOrderSending', true);
+
+      return axios.post(`${API_BASE_URL}/api/orders`, {
+        ...dataForm,
+      }, {
+        params: {
+          userAccessKey: context.state.userAccessKey,
+        },
+      })
+        .then((response) => {
+          context.commit('updateOrderInfoBlock');
+          context.commit('resetCart');
+          context.commit('updateOrderInfo', response.data);
+          context.commit('updateOrderId', response.data.id);
+          context.commit('updateOrderSending', false);
         });
     },
   },
